@@ -1,6 +1,6 @@
 #!/bin/bash
-# Instaraw V2.0 - RunPod Auto-Install Script
-# Usage: bash runpod_install.sh
+# Instaraw V2.0 - RunPod Auto-Install Script (Private Repo Version)
+# Usage: GITHUB_TOKEN=your_token bash runpod_install.sh
 
 set -e
 cd /workspace
@@ -8,6 +8,15 @@ cd /workspace
 echo "🚀 Instaraw V2.0 - RunPod Deployment"
 echo "===================================="
 echo ""
+
+# Check for GitHub token
+if [ -z "$GITHUB_TOKEN" ]; then
+    echo "⚠️  WARNING: GITHUB_TOKEN not set!"
+    echo "For private repos, set your token:"
+    echo "export GITHUB_TOKEN=ghp_your_token_here"
+    echo ""
+    echo "Continuing with public clone attempt..."
+fi
 
 # Check CUDA
 echo "[0/6] Verifying CUDA..."
@@ -34,7 +43,27 @@ echo ""
 # Clone workflows
 echo "[2/6] Cloning workflows from GitHub..."
 if [ ! -d "workflows/v2" ]; then
-    git clone https://github.com/Davidbulke/Instagen.git temp
+    if [ -n "$GITHUB_TOKEN" ]; then
+        echo "Using GitHub token for private repo..."
+        git clone https://${GITHUB_TOKEN}@github.com/Davidbulke/Instagen.git temp
+    else
+        echo "Attempting public clone..."
+        git clone https://github.com/Davidbulke/Instagen.git temp || {
+            echo "❌ ERROR: Clone failed! Repo is private."
+            echo ""
+            echo "SOLUTION 1: Use GitHub Token"
+            echo "  export GITHUB_TOKEN=ghp_your_token_here"
+            echo "  bash runpod_install.sh"
+            echo ""
+            echo "SOLUTION 2: Make repo public temporarily"
+            echo "  GitHub → Settings → Change visibility → Public"
+            echo ""
+            echo "SOLUTION 3: Upload workflows manually"
+            echo "  Upload runpod_workflows.tar.gz to RunPod"
+            echo "  tar -xzf runpod_workflows.tar.gz"
+            exit 1
+        }
+    fi
     mkdir -p workflows
     cp -r temp/workflows/v2 workflows/
     rm -rf temp
