@@ -1,0 +1,367 @@
+{
+    "last_node_id": 12,
+    "last_link_id": 15,
+    "nodes": [
+        {
+            "id": 1,
+            "type": "LoadImage",
+            "pos": [
+                50,
+                50
+            ],
+            "size": [
+                315,
+                314
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        1
+                    ]
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                "generated_image.png"
+            ]
+        },
+        {
+            "id": 2,
+            "type": "FilmGrain",
+            "pos": [
+                400,
+                50
+            ],
+            "size": [
+                315,
+                150
+            ],
+            "flags": {},
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "image",
+                    "type": "IMAGE",
+                    "link": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        2
+                    ]
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                1.5,
+                "monochrome",
+                0.5
+            ]
+        },
+        {
+            "id": 3,
+            "type": "ImageBlur",
+            "pos": [
+                750,
+                50
+            ],
+            "size": [
+                315,
+                100
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "image",
+                    "type": "IMAGE",
+                    "link": 2
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        3
+                    ]
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                0.4,
+                "gaussian"
+            ]
+        },
+        {
+            "id": 4,
+            "type": "ColorCorrect",
+            "pos": [
+                1100,
+                50
+            ],
+            "size": [
+                315,
+                200
+            ],
+            "flags": {},
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "image",
+                    "type": "IMAGE",
+                    "link": 3
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        4
+                    ]
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                1.05,
+                0.95,
+                1.02,
+                0.98,
+                1.0,
+                0.0,
+                "Kodak Portra 400"
+            ]
+        },
+        {
+            "id": 5,
+            "type": "LoadTextFile",
+            "pos": [
+                50,
+                400
+            ],
+            "size": [
+                315,
+                100
+            ],
+            "flags": {},
+            "order": 4,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "STRING",
+                    "type": "STRING",
+                    "links": [
+                        5
+                    ]
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                "metadata/iphone15_template.json"
+            ]
+        },
+        {
+            "id": 6,
+            "type": "RandomGPS",
+            "pos": [
+                400,
+                400
+            ],
+            "size": [
+                315,
+                150
+            ],
+            "flags": {},
+            "order": 5,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "LATITUDE",
+                    "type": "FLOAT",
+                    "links": [
+                        6
+                    ]
+                },
+                {
+                    "name": "LONGITUDE",
+                    "type": "FLOAT",
+                    "links": [
+                        7
+                    ]
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                "Europe",
+                "random"
+            ]
+        },
+        {
+            "id": 7,
+            "type": "EXIFMetadata",
+            "pos": [
+                750,
+                400
+            ],
+            "size": [
+                315,
+                300
+            ],
+            "flags": {},
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "template",
+                    "type": "STRING",
+                    "link": 5
+                },
+                {
+                    "name": "latitude",
+                    "type": "FLOAT",
+                    "link": 6
+                },
+                {
+                    "name": "longitude",
+                    "type": "FLOAT",
+                    "link": 7
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "METADATA",
+                    "type": "METADATA",
+                    "links": [
+                        8
+                    ]
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                "Apple",
+                "iPhone 15 Pro Max",
+                "17.2.1",
+                "1/120",
+                "1.78",
+                "320",
+                "6.86mm"
+            ]
+        },
+        {
+            "id": 8,
+            "type": "ImageSaveWithMetadata",
+            "pos": [
+                1450,
+                50
+            ],
+            "size": [
+                315,
+                200
+            ],
+            "flags": {},
+            "order": 7,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "images",
+                    "type": "IMAGE",
+                    "link": 4
+                },
+                {
+                    "name": "metadata",
+                    "type": "METADATA",
+                    "link": 8
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                "ai_bypass_",
+                "jpg",
+                95,
+                "true"
+            ]
+        }
+    ],
+    "links": [
+        [
+            1,
+            1,
+            0,
+            2,
+            0,
+            "IMAGE"
+        ],
+        [
+            2,
+            2,
+            0,
+            3,
+            0,
+            "IMAGE"
+        ],
+        [
+            3,
+            3,
+            0,
+            4,
+            0,
+            "IMAGE"
+        ],
+        [
+            4,
+            4,
+            0,
+            8,
+            0,
+            "IMAGE"
+        ],
+        [
+            5,
+            5,
+            0,
+            7,
+            0,
+            "STRING"
+        ],
+        [
+            6,
+            6,
+            0,
+            7,
+            1,
+            "FLOAT"
+        ],
+        [
+            7,
+            6,
+            1,
+            7,
+            2,
+            "FLOAT"
+        ],
+        [
+            8,
+            7,
+            0,
+            8,
+            1,
+            "METADATA"
+        ]
+    ],
+    "groups": [],
+    "config": {},
+    "extra": {},
+    "version": 0.4
+}

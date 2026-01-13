@@ -1,0 +1,509 @@
+{
+    "last_node_id": 15,
+    "last_link_id": 20,
+    "nodes": [
+        {
+            "id": 1,
+            "type": "LoadImage",
+            "pos": [
+                50,
+                50
+            ],
+            "size": [
+                315,
+                314
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        1
+                    ],
+                    "shape": 3,
+                    "slot_index": 0
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                "reference_face.jpg"
+            ]
+        },
+        {
+            "id": 2,
+            "type": "InstantIDApply",
+            "pos": [
+                400,
+                50
+            ],
+            "size": [
+                315,
+                150
+            ],
+            "flags": {},
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "image",
+                    "type": "IMAGE",
+                    "link": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "CONDITIONING",
+                    "type": "CONDITIONING",
+                    "links": [
+                        2
+                    ],
+                    "shape": 3
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                "models/instantid/ip-adapter.bin"
+            ]
+        },
+        {
+            "id": 3,
+            "type": "LoadTextFile",
+            "pos": [
+                50,
+                400
+            ],
+            "size": [
+                315,
+                100
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "STRING",
+                    "type": "STRING",
+                    "links": [
+                        3
+                    ],
+                    "shape": 3
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                "prompts/gym_influencer_all.txt"
+            ]
+        },
+        {
+            "id": 4,
+            "type": "PromptIterator",
+            "pos": [
+                400,
+                400
+            ],
+            "size": [
+                315,
+                150
+            ],
+            "flags": {},
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "prompts",
+                    "type": "STRING",
+                    "link": 3
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "PROMPT",
+                    "type": "STRING",
+                    "links": [
+                        4
+                    ],
+                    "shape": 3
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                10,
+                "random"
+            ]
+        },
+        {
+            "id": 5,
+            "type": "CLIPTextEncode",
+            "pos": [
+                750,
+                400
+            ],
+            "size": [
+                400,
+                200
+            ],
+            "flags": {},
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "text",
+                    "type": "STRING",
+                    "link": 4
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "CONDITIONING",
+                    "type": "CONDITIONING",
+                    "links": [
+                        5
+                    ],
+                    "shape": 3
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                ""
+            ]
+        },
+        {
+            "id": 6,
+            "type": "CheckpointLoaderSimple",
+            "pos": [
+                50,
+                600
+            ],
+            "size": [
+                315,
+                98
+            ],
+            "flags": {},
+            "order": 5,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "MODEL",
+                    "type": "MODEL",
+                    "links": [
+                        6
+                    ],
+                    "shape": 3
+                },
+                {
+                    "name": "CLIP",
+                    "type": "CLIP",
+                    "links": [
+                        7
+                    ],
+                    "shape": 3
+                },
+                {
+                    "name": "VAE",
+                    "type": "VAE",
+                    "links": [
+                        8
+                    ],
+                    "shape": 3
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                "realvisxl_v40.safetensors"
+            ]
+        },
+        {
+            "id": 7,
+            "type": "KSampler",
+            "pos": [
+                1200,
+                50
+            ],
+            "size": [
+                315,
+                474
+            ],
+            "flags": {},
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "model",
+                    "type": "MODEL",
+                    "link": 6
+                },
+                {
+                    "name": "positive",
+                    "type": "CONDITIONING",
+                    "link": 5
+                },
+                {
+                    "name": "negative",
+                    "type": "CONDITIONING",
+                    "link": 9
+                },
+                {
+                    "name": "latent_image",
+                    "type": "LATENT",
+                    "link": 10
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "LATENT",
+                    "type": "LATENT",
+                    "links": [
+                        11
+                    ],
+                    "shape": 3
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                123456,
+                "randomize",
+                30,
+                7.5,
+                "dpmpp_2m",
+                "karras",
+                1.0
+            ]
+        },
+        {
+            "id": 8,
+            "type": "EmptyLatentImage",
+            "pos": [
+                750,
+                650
+            ],
+            "size": [
+                315,
+                106
+            ],
+            "flags": {},
+            "order": 7,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "LATENT",
+                    "type": "LATENT",
+                    "links": [
+                        10
+                    ],
+                    "shape": 3
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                1024,
+                1024,
+                10
+            ]
+        },
+        {
+            "id": 9,
+            "type": "CLIPTextEncode",
+            "pos": [
+                750,
+                200
+            ],
+            "size": [
+                400,
+                200
+            ],
+            "flags": {},
+            "order": 8,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "clip",
+                    "type": "CLIP",
+                    "link": 7
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "CONDITIONING",
+                    "type": "CONDITIONING",
+                    "links": [
+                        9
+                    ],
+                    "shape": 3
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                "low quality, blurry, distorted, cartoon, anime, censored"
+            ]
+        },
+        {
+            "id": 10,
+            "type": "VAEDecode",
+            "pos": [
+                1550,
+                50
+            ],
+            "size": [
+                210,
+                46
+            ],
+            "flags": {},
+            "order": 9,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "samples",
+                    "type": "LATENT",
+                    "link": 11
+                },
+                {
+                    "name": "vae",
+                    "type": "VAE",
+                    "link": 8
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        12
+                    ],
+                    "shape": 3
+                }
+            ],
+            "properties": {}
+        },
+        {
+            "id": 11,
+            "type": "SaveImage",
+            "pos": [
+                1800,
+                50
+            ],
+            "size": [
+                315,
+                270
+            ],
+            "flags": {},
+            "order": 10,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "images",
+                    "type": "IMAGE",
+                    "link": 12
+                }
+            ],
+            "properties": {},
+            "widgets_values": [
+                "gym_batch_"
+            ]
+        }
+    ],
+    "links": [
+        [
+            1,
+            1,
+            0,
+            2,
+            0,
+            "IMAGE"
+        ],
+        [
+            2,
+            2,
+            0,
+            7,
+            1,
+            "CONDITIONING"
+        ],
+        [
+            3,
+            3,
+            0,
+            4,
+            0,
+            "STRING"
+        ],
+        [
+            4,
+            4,
+            0,
+            5,
+            0,
+            "STRING"
+        ],
+        [
+            5,
+            5,
+            0,
+            7,
+            1,
+            "CONDITIONING"
+        ],
+        [
+            6,
+            6,
+            0,
+            7,
+            0,
+            "MODEL"
+        ],
+        [
+            7,
+            6,
+            1,
+            9,
+            0,
+            "CLIP"
+        ],
+        [
+            8,
+            6,
+            2,
+            10,
+            1,
+            "VAE"
+        ],
+        [
+            9,
+            9,
+            0,
+            7,
+            2,
+            "CONDITIONING"
+        ],
+        [
+            10,
+            8,
+            0,
+            7,
+            3,
+            "LATENT"
+        ],
+        [
+            11,
+            7,
+            0,
+            10,
+            0,
+            "LATENT"
+        ],
+        [
+            12,
+            10,
+            0,
+            11,
+            0,
+            "IMAGE"
+        ]
+    ],
+    "groups": [],
+    "config": {},
+    "extra": {},
+    "version": 0.4
+}

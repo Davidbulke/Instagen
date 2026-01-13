@@ -1,0 +1,247 @@
+{
+    "last_node_id": 15,
+    "last_link_id": 20,
+    "nodes": [
+        {
+            "id": 1,
+            "type": "LoadImageBatch",
+            "pos": [
+                50,
+                50
+            ],
+            "size": [
+                320,
+                100
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        1,
+                        2
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "LoadImageBatch"
+            },
+            "widgets_values": [
+                "input/",
+                0,
+                "Batch"
+            ]
+        },
+        {
+            "id": 2,
+            "type": "Florence2Run",
+            "pos": [
+                420,
+                50
+            ],
+            "size": [
+                320,
+                140
+            ],
+            "flags": {},
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "image",
+                    "type": "IMAGE",
+                    "link": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "caption",
+                    "type": "STRING",
+                    "links": [
+                        3
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "Florence2Run"
+            },
+            "widgets_values": [
+                "<DETAILED_CAPTION>",
+                "",
+                true,
+                false
+            ]
+        },
+        {
+            "id": 3,
+            "type": "WD14Tagger",
+            "pos": [
+                420,
+                250
+            ],
+            "size": [
+                320,
+                180
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "image",
+                    "type": "IMAGE",
+                    "link": 2
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "tags",
+                    "type": "STRING",
+                    "links": [
+                        4
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "WD14Tagger"
+            },
+            "widgets_values": [
+                "wd-v1-4-moat-tagger-v2",
+                0.35,
+                0.85,
+                false,
+                false,
+                ""
+            ]
+        },
+        {
+            "id": 4,
+            "type": "RPG_PromptGenerator",
+            "pos": [
+                800,
+                50
+            ],
+            "size": [
+                380,
+                280
+            ],
+            "flags": {},
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "florence_caption",
+                    "type": "STRING",
+                    "link": 3
+                },
+                {
+                    "name": "wd14_tags",
+                    "type": "STRING",
+                    "link": 4
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "prompt",
+                    "type": "STRING",
+                    "links": [
+                        5
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "RPG_PromptGenerator"
+            },
+            "widgets_values": [
+                "character",
+                "any",
+                "sfw",
+                "combine",
+                42
+            ]
+        },
+        {
+            "id": 5,
+            "type": "SaveText",
+            "pos": [
+                1240,
+                50
+            ],
+            "size": [
+                320,
+                100
+            ],
+            "flags": {},
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "text",
+                    "type": "STRING",
+                    "link": 5
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "SaveText"
+            },
+            "widgets_values": [
+                "captions/",
+                "caption",
+                ".txt"
+            ]
+        }
+    ],
+    "links": [
+        [
+            1,
+            1,
+            0,
+            2,
+            0,
+            "IMAGE"
+        ],
+        [
+            2,
+            1,
+            0,
+            3,
+            0,
+            "IMAGE"
+        ],
+        [
+            3,
+            2,
+            0,
+            4,
+            0,
+            "STRING"
+        ],
+        [
+            4,
+            3,
+            0,
+            4,
+            1,
+            "STRING"
+        ],
+        [
+            5,
+            4,
+            0,
+            5,
+            0,
+            "STRING"
+        ]
+    ],
+    "groups": [],
+    "config": {},
+    "extra": {},
+    "version": 0.4
+}
