@@ -66,6 +66,13 @@ if [ ! -d "workflows/v2" ]; then
     fi
     mkdir -p workflows
     cp -r temp/workflows/v2 workflows/
+    
+    # Copy custom nodes from repo
+    if [ -d "temp/custom_nodes" ]; then
+        echo "Installing InstaGen custom nodes..."
+        cp -r temp/custom_nodes/* custom_nodes/
+    fi
+
     rm -rf temp
     echo "✅ Cloned 14 workflows"
 else
